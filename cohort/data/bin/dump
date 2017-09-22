@@ -1,0 +1,9 @@
+#!/bin/bash
+
+rm -f /docker-entrypoint-initdb.d/webstore_development.sql
+
+mysqldump \
+  -h mysql \
+  -uroot \
+  -p$MYSQL_ROOT_PASSWORD \
+  webstore_development >/docker-entrypoint-initdb.d/webstore_development.sql
