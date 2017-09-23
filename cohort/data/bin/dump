@@ -6,4 +6,4 @@ mysqldump \
   -h mysql \
   -uroot \
   -p$MYSQL_ROOT_PASSWORD \
-  webstore_development >/docker-entrypoint-initdb.d/webstore_development.sql
+  webstore_development > /docker-entrypoint-initdb.d/webstore_development.sql

@@ -36,5 +36,5 @@ config.rst
 /.project
 /.pydevproject
 
-/data/dumps
+/docker-compose/mysql/init
 /data/.bundle

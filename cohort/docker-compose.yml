@@ -27,7 +27,7 @@ services:
       BUNDLE_GEMFILE: /workdir/Gemfile
       BUNDLE_BUILD__NOKOGIRI: "--use-system-libraries"
       DATABASE_HOST: mysql
-      DATABASE_USERNAME: root
+      DATABASE_USERNAME: admin
       DATABASE_PASSWORD: admin
       db: development
     working_dir: /workdir
@@ -39,11 +39,15 @@ services:
   mysql:
     image: mysql:5.7
     environment:
+      MYSQL_USER: "admin"
+      MYSQL_PASSWORD: "admin"
       MYSQL_ROOT_PASSWORD: "admin"
+      MYSQL_DATABASE: "webstore_development"
     expose:
       - "3306"
     volumes:
-      - ./data/dumps:/docker-entrypoint-initdb.d
+      - ./docker-compose/mysql/conf.d:/etc/mysql/conf.d/
+      - ./docker-compose/mysql/init:/docker-entrypoint-initdb.d
       - ./data/bin:/data/bin
     logging:
       driver: "json-file"

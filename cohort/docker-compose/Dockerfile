@@ -22,4 +22,6 @@ USER jovyan
 
 RUN conda install --yes -c conda-forge jupyterlab
 
+RUN conda install --yes -c bioconda mysqlclient
+
 RUN jupyter serverextension enable --py jupyterlab --sys-prefix

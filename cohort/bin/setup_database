@@ -3,4 +3,4 @@ COMPOSE_OPTIONS="-e USER=$(id -un) -e UID=$(id -u) -e GID=$(id -g)"  \
 docker-compose run --rm data-generator bin/setup
 
 COMPOSE_OPTIONS="-e USER=$(id -un) -e UID=$(id -u) -e GID=$(id -g)"  \
-docker-compose run --rm mysql bash
+docker-compose run --rm mysql /data/bin/dump
