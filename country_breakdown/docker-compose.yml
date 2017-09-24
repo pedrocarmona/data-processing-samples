@@ -1,0 +1,59 @@
+version: '2'
+services:
+  app:
+    build:
+      context: ./docker-compose
+      args:
+        host_uid: $UID
+        host_gid: $GID
+    # your local image with correct permissions
+    image: $USER/scipy-notebook:$UID.$GID
+    command: jupyter notebook --NotebookApp.token=
+    environment:
+      JOBLIB_TEMP_FOLDER: /tmp
+    working_dir: /workdir
+    volumes:
+      - .:/workdir
+    links:
+      - mysql
+    ports:
+      - 8888:8888
+
+  data-generator:
+    image: ruby:2.4
+    # command: setup
+    environment:
+      BUNDLE_PATH: /workdir/.bundle
+      BUNDLE_GEMFILE: /workdir/Gemfile
+      BUNDLE_BUILD__NOKOGIRI: "--use-system-libraries"
+      DATABASE_HOST: mysql
+      DATABASE_USERNAME: admin
+      DATABASE_PASSWORD: admin
+      APP_ENV: development
+    working_dir: /workdir
+    volumes:
+      - ./data:/workdir
+    links:
+      - mysql
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: "admin"
+      MYSQL_PASSWORD: "admin"
+      MYSQL_ROOT_PASSWORD: "admin"
+      MYSQL_DATABASE: "webstore_development"
+    expose:
+      - "3306"
+    volumes:
+      - ./docker-compose/mysql/conf.d:/etc/mysql/conf.d/
+      - ./docker-compose/mysql/init:/docker-entrypoint-initdb.d
+      - ./data/bin:/data/bin
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+
+
+

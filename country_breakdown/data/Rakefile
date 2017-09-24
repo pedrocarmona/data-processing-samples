@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+require "active_record_migrations"
+
+ActiveRecordMigrations.configure do |c|
+  c.environment = ENV["APP_ENV"]
+end
+
+ActiveRecordMigrations.load_tasks
